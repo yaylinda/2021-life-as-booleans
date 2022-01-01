@@ -15,8 +15,11 @@ data = read.csv("data.csv")
 
 data[data==0] = "False"
 data[data==1] = "True"
+data[data==""] = "False"
+data[data=="o"] = "False"
+data[data=="l"] = "False"
 
-data$date = as.Date(data$X.1, format = "%m/%d/%y")
+data$date = as.Date(data$X.1, format = "%m/%d/%Y")
 data$week = week(data$date)
 data$month = format(data$date,"%B")
 data$month = factor(data$month, list(
@@ -132,48 +135,215 @@ variable_labels = c(
 # All
 #--------------------------------------
 
+data.all_sfw = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "felt.enough.sleep" = data$felt.enough.sleep,
+  "slept.at.home" = data$slept.at.home,
+  "shower" = data$shower,
+  "wash.hair" = data$wash.hair,
+  "toothbrush.morning" = data$toothbrush.morning,
+  "toothbrush.night" = data$toothbrush.night,
+  "poop" = data$poop,
+  
+  "breakfast" = data$breakfast,
+  "lunch" = data$lunch,
+  "dinner" = data$dinner,
+  "midnight.snack" = data$midnight.snack,
+  "ate.at.home" = data$ate.at.home,
+  "cooked" = data$cooked,
+  "deliver...pick.up.food" = data$deliver...pick.up.food,
+  
+  "vitamins" = data$vitamins,
+  "caffeine" = data$caffeine,
+  "adderall" = data$adderall,
+  "alcohol"= data$alcohol,
+  "weed"= data$weed,
+  "ambien"= data$ambien,
+  
+  "chores" = data$chores,
+  "personal.coding" = data$personal.coding,
+  
+  "went.to.work" = data$went.to.work,
+  "worked.remotely" = data$worked.remotely,
+  "happy.about.work" = data$happy.about.work,
+  "sad.about.work" = data$sad.about.work,
+  "felt.work.stress" = data$felt.work.stress,
+  "productive.at.work" = data$productive.at.work,
+  
+  "happy" = data$happy,
+  "sad" = data$sad,
+  "angry" = data$angry,
+  "Annoyed" = data$Annoyed,
+  "cried" = data$cried,
+  "Journaled" = data$Journaled,
+  "stressed.or.anxious" = data$stressed.or.anxious,
+  
+  "abandoned.by.sean" = data$abandoned.by.sean,
+  "had.own.activities..other.than.work." = data$had.own.activities..other.than.work.,
+  "upset.at.sean" = data$upset.at.sean,
+  "sean.alcohol" = data$sean.alcohol,
+  "sean.cigar" = data$sean.cigar,
+  "sean.drunk" = data$sean.drunk,
+  "happy.about.relationship" = data$happy.about.relationship,
+  "sad.about.relationship" = data$sad.about.relationship,
+  "sex" = data$sex
+)
+
+melt_and_plot(data.all_sfw, "2021 Daily Life Attributes")
 
 #--------------------------------------
-# All (SFW)
+# Hygiene
 #--------------------------------------
 
+data.hygiene = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
 
-#--------------------------------------
-# Hygeine
-#--------------------------------------
+  "felt.enough.sleep" = data$felt.enough.sleep,
+  "slept.at.home" = data$slept.at.home,
+  "shower" = data$shower,
+  "wash.hair" = data$wash.hair,
+  "toothbrush.morning" = data$toothbrush.morning,
+  "toothbrush.night" = data$toothbrush.night,
+  "poop" = data$poop,
+  "period" = data$period
+)
 
+melt_and_plot(data.hygiene, "2021 Daily Hygiene")
 
 #--------------------------------------
 # Eating
 #--------------------------------------
 
+data.food = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "breakfast" = data$breakfast,
+  "lunch" = data$lunch,
+  "dinner" = data$dinner,
+  "midnight.snack" = data$midnight.snack,
+  "ate.at.home" = data$ate.at.home,
+  "cooked" = data$cooked,
+  "deliver...pick.up.food" = data$deliver...pick.up.food
+)
+
+melt_and_plot(data.food, "2021 Daily Food")
 
 #--------------------------------------
 # Drugs
 #--------------------------------------
 
+data.drugs = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "vitamins" = data$vitamins,
+  "caffeine" = data$caffeine,
+  "adderall" = data$adderall,
+  "alcohol"= data$alcohol,
+  "weed"= data$weed,
+  "ambien"= data$ambien
+)
+
+melt_and_plot(data.drugs, "2021 Daily Drugs")
+
+#--------------------------------------
+# Productivity
+#--------------------------------------
+
+data.productivity = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "chores" = data$chores,
+  "personal.coding" = data$personal.coding
+)
+
+melt_and_plot(data.productivity, "2021 Daily Productivity")
 
 #--------------------------------------
 # Work
 #--------------------------------------
 
+data.work = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "went.to.work" = data$went.to.work,
+  "worked.remotely" = data$worked.remotely,
+  "happy.about.work" = data$happy.about.work,
+  "sad.about.work" = data$sad.about.work,
+  "felt.work.stress" = data$felt.work.stress,
+  "productive.at.work" = data$productive.at.work
+)
+
+melt_and_plot(data.work, "2021 Daily Work")
 
 #--------------------------------------
 # Feelings 
 #--------------------------------------
 
+data.feelings = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "happy" = data$happy,
+  "sad" = data$sad,
+  "angry" = data$angry,
+  "Annoyed" = data$Annoyed,
+  "cried" = data$cried,
+  "Journaled" = data$Journaled,
+  "stressed.or.anxious" = data$stressed.or.anxious
+)
+
+melt_and_plot(data.feelings, "2021 Daily Emotions")
 
 
 #--------------------------------------
-# Relationship 
+# Sean 
 #--------------------------------------
 
+data.sean = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "abandoned.by.sean" = data$abandoned.by.sean,
+  "had.own.activities..other.than.work." = data$had.own.activities..other.than.work.,
+  "upset.at.sean" = data$upset.at.sean,
+  "sean.alcohol" = data$sean.alcohol,
+  "sean.cigar" = data$sean.cigar,
+  "sean.drunk" = data$sean.drunk,
+  "happy.about.relationship" = data$happy.about.relationship,
+  "sad.about.relationship" = data$sad.about.relationship,
+  "sex" = data$sex
+)
+
+melt_and_plot(data.sean, "2021 Relationships & Sean")
 
 #######################################
 # HELPER FUNCTION: melt_and_plot()
 #######################################
 
-melt_and_plot = function(data, subtitle) {
+melt_and_plot = function(data, title) {
   melt = melt(
     data = data, 
     id = names(data)[1:4])
@@ -197,8 +367,7 @@ melt_and_plot = function(data, subtitle) {
     labs(
       y = "",
       x = "",
-      title = "2021 in Booleans",
-      subtitle = subtitle,
+      title = title,
       fill = "Legend",
     ) + 
     theme(
@@ -208,17 +377,8 @@ melt_and_plot = function(data, subtitle) {
       axis.text.x = element_blank(), 
       axis.text.y = element_blank(), 
       axis.ticks = element_blank(),
-      plot.title = element_text(size = 60, face = "bold", margin = margin(b = 40)),
-      # plot.subtitle = element_text(size = 40, margin = margin(t = 20, b = 40)),
       plot.subtitle = element_blank(),
-      plot.caption = element_text(size = 30, margin = margin(t = 30, b = 20), hjust = 0),
-      strip.text.x = element_text(size = 25, face = "bold"),
-      strip.text.y = element_text(size = 20, face = "bold"),
-      legend.title = element_text(size = 30, face = "bold"),
-      legend.text = element_text(size = 30),
-      legend.box.margin = margin(l = 40),
       legend.background = element_rect(fill = "black"),
-      plot.margin = margin(t = 50, r = 80, b = 20, l = 80),
       plot.background = element_rect(fill = "black")
     )
 }
