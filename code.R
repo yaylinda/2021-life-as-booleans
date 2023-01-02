@@ -4,6 +4,7 @@ library(lubridate)
 library(reshape2)
 library(scales)
 library(ggthemes)
+library(ggpubr)
 
 setwd("~/Developer/2021-life-as-booleans")
 
@@ -340,6 +341,128 @@ data.sean = data.frame(
 melt_and_plot(data.sean, "2021 Relationships & Sean")
 
 #######################################
+# PLOT 3x4 grids
+#######################################
+
+data_shower = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "fill" = data$shower
+)
+plot_shower = plot_year_3_by_4(data_shower, "Showered")
+
+data_poop = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "fill" = data$poop
+)
+plot_poop = plot_year_3_by_4(data_poop, "Pooped")
+
+data_cooked = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "fill" = data$cooked
+)
+plot_cooked = plot_year_3_by_4(data_cooked, "Cooked")
+
+data_delivery = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "fill" = data$deliver...pick.up.food
+)
+plot_delivery = plot_year_3_by_4(data_delivery, "Ordered Food")
+
+data_restaurant = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "fill" = data$ate.at.restaurant
+)
+plot_restaurant = plot_year_3_by_4(data_restaurant, "Ate at Restaurant")
+
+data_caffeine = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "fill" = data$caffeine
+)
+plot_caffeine = plot_year_3_by_4(data_caffeine, "Had Caffeine")
+
+data_cried = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "fill" = data$cried
+)
+plot_cried = plot_year_3_by_4(data_cried, "Cried")
+
+data_worked_remotely = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "fill" = data$worked.remotely
+)
+plot_worked_remotely = plot_year_3_by_4(data_worked_remotely, "Worked Remotely")
+
+data_worked_in_office = data.frame(
+  "date" = data$date, 
+  "month" = data$month, 
+  "day_of_week" = data$day_of_week, 
+  "monthweek" = data$monthweek,
+  
+  "fill" = data$went.to.work
+)
+plot_worked_in_office = plot_year_3_by_4(data_worked_in_office, "Worked in Office")
+
+combo_plot = ggarrange(
+  plot_caffeine,
+  plot_worked_remotely,
+  plot_worked_in_office,
+  
+  plot_cooked,
+  plot_delivery,
+  plot_restaurant,
+  
+  plot_shower,
+  plot_cried,
+  plot_poop,
+  
+  common.legend = TRUE, 
+  legend = "right"
+)
+
+annotate_figure(
+  combo_plot, 
+  top = text_grob(
+    "\nMy 2021 in Booleans\n",
+    face = "bold",
+    family = "mono",
+    size = 20
+  )
+)
+
+
+#######################################
 # HELPER FUNCTION: melt_and_plot()
 #######################################
 
@@ -382,3 +505,52 @@ melt_and_plot = function(data, title) {
       plot.background = element_rect(fill = "black")
     )
 }
+
+#######################################
+# HELPER FUNCTION: plot_year_3_by_4()
+#######################################
+
+plot_year_3_by_4 = function(data, title) {
+  ggplot(
+    data, 
+    aes(
+      day_of_week, 
+      monthweek, 
+      fill = factor(fill, labels = c("False", "True"))
+    )
+  ) +
+    scale_fill_manual(
+      na.translate = F,
+      values = c("#606060FF", "#D6ED17FF"),
+      labels = c("False", "True")
+    ) + 
+    facet_wrap(
+      ~month,
+      ncol = 4
+    ) +
+    coord_equal(ratio = 1) + 
+    geom_tile(
+      color = "white", 
+      alpha = 0.8,
+      lwd = 0.5
+    ) +
+    labs(
+      x = element_blank(),
+      y = element_blank(),
+      title = title,
+      subtitle = element_blank(),
+      fill = ""
+    ) + 
+    theme_linedraw() + 
+    theme(
+      text = element_text(family = "mono", face = "bold"),
+      panel.grid.major = element_blank(), 
+      panel.grid.minor = element_blank(), 
+      axis.text.x = element_blank(), 
+      axis.text.y = element_blank(), 
+      axis.ticks = element_blank(),
+      legend.position='bottom',
+    )
+}
+
+
